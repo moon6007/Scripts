@@ -1,5 +1,5 @@
 
-local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/moon606/Scripts/main/ui%20librarys%20backup/solaris%20ui.lua"))()
+local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/BackUpUiLibs/main/solaris%20ui.lua"))()
 
 
 
