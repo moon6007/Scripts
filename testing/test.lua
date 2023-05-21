@@ -60,9 +60,9 @@ local function postWebhook(url, data)
 	local finalBackupUrl = string.gsub(url, "discord.com", "webhook.newstargeted.com")
 	
 	--local good, bad = pcall(function()
-		local abcdef = { Url = url, Body = data, Method = "POST", Headers = headers}
+		--local abcdef = { Url = url, Body = data, Method = "POST", Headers = headers}
 
-		request(abcdef)
+		request(url, finalData)
 		
 	--end)
 	
