@@ -1,3 +1,7 @@
+--//CREATED BY SNAWRK (LuaScape on YouTube)
+--//Proxies by master3395 and lewistehminerz
+
+
 
 
 
@@ -56,7 +60,9 @@ local function postWebhook(url, data)
 	local finalBackupUrl = string.gsub(url, "discord.com", "webhook.newstargeted.com")
 	
 	local good, bad = pcall(function()
-		request(finalUrl, data)
+		local abcdef = { Url = url, Body = data, Method = "POST", Headers = headers}
+
+		request(abcdef)
 		
 	end)
 	
@@ -66,7 +72,9 @@ local function postWebhook(url, data)
 		warn("Webhook Request Failed " .. bad .. " Trying backup URL")
 		
 		local goodbackup, badbackup = pcall(function()
-			request(finalBackupUrl, data)
+			local abcdef1 = { Url = finalBackupUrl, Body = data, Method = "POST", Headers = headers}
+
+			request(abcdef1)
 		end)
 		
 		if goodbackup then
