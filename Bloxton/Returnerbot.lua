@@ -1,4 +1,33 @@
 --Made By NathanReturns
+getgenv().DisableAnimate = false
+
+getgenv().AnimationPack = "Werewolf"
+--[[
+Knight
+Astronaut
+Werewolf
+--]]
+
+getgenv().UsePathfinding = false
+
+
+
+if game.PlaceId == 1990228024 then
+	else
+
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("ERROR! Returner BOT only supports Blox-ton Hotels.", "All")
+
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Error!";
+		Text = "ReturnerBOT does not Support this game.";
+		Duration = 5;
+	})
+	error("a")
+	return
+end
+
+
+
 
 local Pathfinding = game:GetService("PathfindingService")
 local Players = game:GetService("Players")
@@ -43,11 +72,10 @@ elseif getgenv().AnimationPack == "Werewolf" then
 	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1083189019"
 end
 
-
+local rejoin = false
 local TeleportService = game:GetService("TeleportService")
 
 if getgenv().UsePathfinding == false then
-if game.PlaceId == 1990228024 then
 	local speed = _G.Speed
 	
 
@@ -107,12 +135,36 @@ if game.PlaceId == 1990228024 then
 				local args = {
 					[1] = "Cuffs detected Bypassing... ",
 					[2] = "All"
-				}          
+				} 
+				
 				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-
+				
+				local Settings
+				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
+				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
+				end
+				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.UsePathfinding =getgenv().UsePathfinding
+				Save()
+				
+				
+				queue_on_teleport([[
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().UsePathfinding = Settings.UsePathfinding
+                 
+                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
+                 
+                 ]])
+				
 				wait ()
 
-				TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+				rejoin = true
 
 				wait (6)
 			end)
@@ -196,18 +248,25 @@ if game.PlaceId == 1990228024 then
 				plr.Character.Humanoid.MoveToFinished:Wait()
 				plr.Character.Humanoid.WalkToPoint = Vector3.new(139, 44, 156)
 				plr.Character.Humanoid.MoveToFinished:Wait()
-
 				wait()
 				pcall(function()
 					local args = {
-						[1] = "Can someone clean my room? ",----asks for someone to clean room
+						[1] = "Can someone clean my room?",----asks for someone to clean room
 						[2] = "All"
 					}          
 					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
 				end)
 
 
-
+				wait(speed)
+				
+				pcall(function()
+					local args = {
+						[1] = "Can one of the housekeepers clean my room?",----asks for someone to clean room
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end)
 
 				wait (speed)
 				plr.Character.Humanoid.WalkToPoint = Vector3.new(115, 44, 156)---------walk to bar
@@ -384,10 +443,34 @@ if game.PlaceId == 1990228024 then
 						[2] = "All"
 					}          
 					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				
+				
+				local Settings
+				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
+				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
+				end
+				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.UsePathfinding =getgenv().UsePathfinding
+				Save()
+
+
+				queue_on_teleport([[
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().UsePathfinding = Settings.UsePathfinding
+                 
+                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
+                 
+                 ]])
 
 					wait ()
 
-					TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+					rejoin = true
 
 					wait (6)
 				end)
@@ -489,28 +572,133 @@ if game.PlaceId == 1990228024 then
 					Humanoid:MoveTo(v.Position)
 					Humanoid.MoveToFinished:Wait()
 				end
-			
 				
+				wait()
+				pcall(function()
+					local args = {
+					[1] = "Can someone clean my room?",----asks for someone to clean room
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+			end)
+			
+			wait(speed)
+
+			pcall(function()
+				local args = {
+					[1] = "Can one of the housekeepers clean my room?",----asks for someone to clean room
+					[2] = "All"
+				}          
+				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+			end)
+				
+				wait(speed)
+				
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 28)) -- walks to bar
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+				
+				
+				pcall(function()
+					local args = {
+						[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end
+				)
+
+				wait (speed)
+				
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 19)) -- walks to reg 2
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+
+				pcall(function()
+					local args = {
+						[1] = "Can I get a Chocolate Milkshake, a Cookie and a bag of Nachos please? ",----asks for food
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end
+				)
+				wait (speed)
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 10)) -- walks to reg 2
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+				pcall(function()
+					local args = {
+						[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end
+				)
+				
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+
+
+
+
+				pcall(function()
+					local args = {
+						[1] = "Room please. ",----asks for room from reg2
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end
+				)
+
+				wait (speed)
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 44, 76)) -- walks to reg 1
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+
+				pcall(function()
+					local args = {
+						[1] = "May I have a room? ",----asks for room from reg1
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end
+				)
+
+				wait (speed)
+
+				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
+				for i,v in pairs(Path:GetWaypoints()) do
+					Humanoid:MoveTo(v.Position)
+					Humanoid.MoveToFinished:Wait()
+				end
+
+				pcall(function()
+					local args = {
+						[1] = "Can I have one of your rooms? ",----asks for room from reg2 again
+						[2] = "All"
+					}          
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+				end)
+				wait(speed)
 			until false
 			end)
 		
 		end
-else
-	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("ERROR! Returner BOT only supports Blox-ton Hotels.", "All")
 
-	game.StarterGui:SetCore("SendNotification", {
-		Title = "Error!";
-		Text = "ReturnerBOT does not Support this game.";
-		Duration = 5;
-	})
-end
 
 
 local Dir = game:GetService("CoreGui"):WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
-if queue_on_teleport or (syn and syn.queue_on_teleport) then
-	qot = queue_on_teleport or syn.queue_on_teleport
-end
-
 Dir.DescendantAdded:Connect(function(Err)
 	if Err.Name == "ErrorTitle" then
 		Err:GetPropertyChangedSignal("Text"):Connect(function()
@@ -519,10 +707,40 @@ Dir.DescendantAdded:Connect(function(Err)
 				if not beforeKicked then
 					beforeKicked = game.Workspace:WaitForChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart").CFrame
 				end
-				while wait(1) do
-					game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+				local Settings
+				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
+				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
 				end
-			end
+				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.UsePathfinding =getgenv().UsePathfinding
+				Save()
+
+
+				queue_on_teleport([[
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().UsePathfinding = Settings.UsePathfinding
+                 
+                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
+                 
+                 ]])
+
+				wait()
+			rejoin = true
+					
+				end
 		end)
 	end
+end)
+
+
+game["Run Service"].RenderStepped:Connect(function()
+	if rejoin == true then
+		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+		end
 end)
