@@ -34,8 +34,8 @@ local Players = game:GetService("Players")
 
 local LocalPlayer = game.Players.LocalPlayer
 local Character = LocalPlayer.Character
-local HumanoidRootPart = Character.HumanoidRootPart
-local Humanoid = Character.Humanoid
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+local Humanoid = Character:WaitForChild("Humanoid")
 
 
 for i,v in pairs(Character.Humanoid:GetPlayingAnimationTracks()) do
