@@ -258,7 +258,7 @@ if getgenv().UsePathfinding == false then
 				end)
 
 
-				wait(speed)
+				wait(.2)
 				
 				pcall(function()
 					local args = {
@@ -582,7 +582,7 @@ if getgenv().UsePathfinding == false then
 					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
 			end)
 			
-			wait(speed)
+			wait(.2)
 
 			pcall(function()
 				local args = {
