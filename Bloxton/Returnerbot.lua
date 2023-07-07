@@ -519,13 +519,15 @@ Dir.DescendantAdded:Connect(function(Err)
 				if not beforeKicked then
 					beforeKicked = game.Workspace:WaitForChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart").CFrame
 				end
-				--queuedScript = [[
-				--a=game:WaitForChild('Workspace'):WaitForChild(']]..name..[['):WaitForChild('HumanoidRootPart')
-				--	repeat task.wait() until game:IsLoaded()
-				--	print(']]..tostring(beforeKicked)..[[')
-				--	a.CFrame = CFrame.new(]]..tostring(beforeKicked)..[[)
+				queuedScript = --[[
+			getgenv().DisableAnimate = false
+
+                      getgenv().AnimationPack = "Werewolf"
+                       getgenv().UsePathfinding = false
+
+                  loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
 				--]]
-				--qot(queuedScript)
+				qot(queuedScript)
 				wait()
 				while wait(1) do
 					game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
