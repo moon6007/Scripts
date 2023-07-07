@@ -152,6 +152,7 @@ if getgenv().UsePathfinding == false then
 				
 				
 				queue_on_teleport([[
+				repeat wait() until game:IsLoaded()
 				 local Settings
                  Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
                  getgenv().DisableAnimate = Settings.DisableAnimate
@@ -720,6 +721,7 @@ Dir.DescendantAdded:Connect(function(Err)
 
 
 				queue_on_teleport([[
+				repeat wait() until game:IsLoaded()
 				 local Settings
                  Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
                  getgenv().DisableAnimate = Settings.DisableAnimate
