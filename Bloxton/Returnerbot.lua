@@ -265,7 +265,7 @@ local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 local Humanoid = Character:WaitForChild("Humanoid")
 
 
-for i,v in pairs(Character.Humanoid:GetPlayingAnimationTracks()) do
+for i,v in pairs(Humanoid:GetPlayingAnimationTracks()) do
 	v:Stop()
 end
 
