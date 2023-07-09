@@ -1,6 +1,5 @@
 --originally By NathanReturns additions by mo_on
 
-
 if LOADED then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -63,7 +62,7 @@ end
 
 
 
-local humanoid = game.Players.LocalPlayer.Character.Humanoid
+local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
 
 local PathfindingService = game:GetService("PathfindingService")
 
@@ -73,7 +72,7 @@ local PathfindingService = game:GetService("PathfindingService")
 	}
 	local path = PathfindingService:CreatePath(pathParams)
 
-
+	path:ComputeAsync(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, destination.Position)
 
 
 local function getPath(destination)
