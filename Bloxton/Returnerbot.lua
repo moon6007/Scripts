@@ -1,14 +1,5 @@
---Made By NathanReturns
-getgenv().DisableAnimate = false
+--originally By NathanReturns additions by mo_on
 
-getgenv().AnimationPack = "Werewolf"
---[[
-Knight
-Astronaut
-Werewolf
---]]
-
-getgenv().UsePathfinding = false
 
 
 
@@ -27,6 +18,145 @@ if game.PlaceId == 1990228024 then
 end
 
 
+
+
+for i,v in pairs(game.Workspace:GetDescendants()) do
+	if v:IsA("ProximityPrompt") then
+		if v.ObjectText == "Panini Sandwich" then
+			
+		end
+	end
+end
+
+local function fireproximityprompt(Obj, Amount, Skip)
+	if Obj.ClassName == "ProximityPrompt" then 
+		Amount = Amount or 1
+		local PromptTime = Obj.HoldDuration
+		if Skip then 
+			Obj.HoldDuration = 0
+		end
+		for i = 1, Amount do 
+			Obj:InputHoldBegin()
+			if not Skip then 
+				wait(Obj.HoldDuration)
+			end
+			Obj:InputHoldEnd()
+		end
+		Obj.HoldDuration = PromptTime
+	else 
+		error("userdata<ProximityPrompt> expected")
+	end
+end
+
+
+local plr = game:GetService("Players").LocalPlayer
+if getgenv().DisableAnimate == true then
+	plr.Character.Animate.Disabled = true
+end
+game.Players.PlayerAdded:Connect(function(plr)
+
+	if plr:GetRankInGroup(2788849) == 12 then
+		local loc = plr
+		local args = {
+			[1] = "A Senior Management has been detected, Leaving to evade a Server ban...",
+			[2] = "All"
+		}
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+		wait (1.5) 
+		--game.Players.LocalPlayer:Kick("Senior Joined")
+		local GuiService = game:GetService("GuiService")
+		local NotificationType = GuiService:GetNotificationTypeList()
+		GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+
+	end
+end)
+--
+
+for i,v in pairs(game:GetService("Players"):GetPlayers())  do
+	if plr:GetRankInGroup(2788849) == 12 then
+		--plr:Kick("Senior Still in Server..")
+		local GuiService = game:GetService("GuiService")
+		local NotificationType = GuiService:GetNotificationTypeList()
+		GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+	end end
+
+spawn(function()
+	plr.Character.HumanoidRootPart.CFrame = CFrame.new(50, 43, 89)----tp outside
+end)
+
+botversion = "V5"
+local name = "Returner BOT"
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("["..name.."]: "..botversion.." has loaded.","All")
+game.StarterGui:SetCore("SendNotification", {
+	Title = "Returner BOT";
+	Text = "Returner BOT Loaded! originally By NathanReturns additions by mo_on";
+	Duration = 5;
+})
+
+local Player = plr
+local Character = Player.Character
+Player.CharacterAdded:Connect(function()
+	repeat task.wait() until Player.Character
+	Character = Player.Character
+end)
+Character.ChildAdded:Connect(function(child)
+	if child.Name == "Arrested" then
+		pcall(function()
+			local args = {
+				[1] = "Cuffs detected Bypassing... ",
+				[2] = "All"
+			} 
+
+			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+
+			local Settings
+			local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
+			local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
+			end
+			if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+			Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+			Settings.DisableAnimate = getgenv().DisableAnimate
+			Settings.AnimationPack=getgenv().AnimationPack
+			Settings.UsePathfinding =getgenv().UsePathfinding
+			Save()
+
+
+			queue_on_teleport([[
+				
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().UsePathfinding = Settings.UsePathfinding
+                 
+                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
+                 
+                 ]])
+
+			wait ()
+
+			rejoin = true
+
+			wait (6)
+		end)
+	end
+end)
+
+
+spawn(function()
+repeat wait(.1)
+		
+	if game.Players.LocalPlayer.Character:FindFirstChild("Panini Sandwich") then
+		game.Players.LocalPlayer.Character:FindFirstChild("Panini Sandwich"):Activate()
+		
+	elseif game.Players.LocalPlayer.Backpack:FindFirstChild("Panini Sandwich") then
+		
+		game.Players.LocalPlayer.Character:FindFirstChild("Humanoid"):EquipTool(game.Players.LocalPlayer.Backpack:FindFirstChild("Panini Sandwich"))
+		
+	end
+
+until false
+end)
 
 
 local Pathfinding = game:GetService("PathfindingService")
@@ -78,106 +208,6 @@ local TeleportService = game:GetService("TeleportService")
 if getgenv().UsePathfinding == false then
 	local speed = _G.Speed
 	
-
-	local plr = game:GetService("Players").LocalPlayer
-	if getgenv().DisableAnimate == true then
-		plr.Character.Animate.Disabled = true
-	end
-	game.Players.PlayerAdded:Connect(function(plr)
-
-		if plr:GetRankInGroup(2788849) == 12 then
-			local loc = plr
-			local args = {
-				[1] = "A Senior Management has been detected, Leaving to evade a Server ban...",
-				[2] = "All"
-			}
-			game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				wait (1.5) 
-				--game.Players.LocalPlayer:Kick("Senior Joined")
-				local GuiService = game:GetService("GuiService")
-				local NotificationType = GuiService:GetNotificationTypeList()
-				GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
-
-		end
-	end)
-	--
-
-	for i,v in pairs(game:GetService("Players"):GetPlayers())  do
-		if plr:GetRankInGroup(2788849) == 12 then
-				--plr:Kick("Senior Still in Server..")
-				local GuiService = game:GetService("GuiService")
-				local NotificationType = GuiService:GetNotificationTypeList()
-				GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
-		end end
-
-	spawn(function()
-		plr.Character.HumanoidRootPart.CFrame = CFrame.new(50, 43, 89)----tp outside
-	end)
-
-	botversion = "V5"
-	local name = "Returner BOT"
-	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("["..name.."]: "..botversion.." has loaded.","All")
-	game.StarterGui:SetCore("SendNotification", {
-		Title = "By NathanReturns";
-		Text = "Returner BOT Loaded!";
-		Duration = 5;
-	})
-
-	local Player = plr
-	local Character = Player.Character
-	Player.CharacterAdded:Connect(function()
-		repeat task.wait() until Player.Character
-		Character = Player.Character
-	end)
-	Character.ChildAdded:Connect(function(child)
-		if child.Name == "Arrested" then
-			pcall(function()
-				local args = {
-					[1] = "Cuffs detected Bypassing... ",
-					[2] = "All"
-				} 
-				
-				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				
-				local Settings
-				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
-				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
-				end
-				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
-				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-				Settings.DisableAnimate = getgenv().DisableAnimate
-				Settings.AnimationPack=getgenv().AnimationPack
-				Settings.UsePathfinding =getgenv().UsePathfinding
-				Save()
-				
-				
-				queue_on_teleport([[
-				
-				 local Settings
-                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-                 getgenv().DisableAnimate = Settings.DisableAnimate
-                 getgenv().AnimationPack = Settings.AnimationPack
-                 getgenv().UsePathfinding = Settings.UsePathfinding
-                 
-                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
-                 
-                 ]])
-				
-				wait ()
-
-				rejoin = true
-
-				wait (6)
-			end)
-		end
-	end)
-
-	wait ()
-
-
-
-
-
 	spawn(function()
 		plr.Character.Humanoid.WalkToPoint = Vector3.new(76, 44, 89)--walks on carpet thing
 	end)
@@ -320,13 +350,47 @@ if getgenv().UsePathfinding == false then
 				end
 				)
 				wait (speed)
+				
+				
+				local sandwitch = game.Players.LocalPlayer.Character:FindFirstChild("Panini Sandwich") or game.Players.LocalPlayer.Backpack:FindFirstChild("Panini Sandwich")
+				
+				
+				if sandwitch then
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(113, 44, 60)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(115, 44, 90)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(145, 43, 90)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					
+				else
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(142, 44, 13)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(143, 44, 31)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(150, 44, 31)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					
+					for i,v in pairs(game.Workspace:GetDescendants()) do
+						if v:IsA("ProximityPrompt") then
+							if v.ObjectText == "Panini Sandwich" then
+								fireproximityprompt(v,1,true)
+							end
+						end
+					end
 
-				plr.Character.Humanoid.WalkToPoint = Vector3.new(113, 44, 60)
-				plr.Character.Humanoid.MoveToFinished:Wait()
-				plr.Character.Humanoid.WalkToPoint = Vector3.new(115, 44, 90)
-				plr.Character.Humanoid.MoveToFinished:Wait()
-				plr.Character.Humanoid.WalkToPoint = Vector3.new(145, 43, 90)
-				plr.Character.Humanoid.MoveToFinished:Wait()
+					wait(2)
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(113, 44, 60)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(115, 44, 90)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+					plr.Character.Humanoid.WalkToPoint = Vector3.new(145, 43, 90)
+					plr.Character.Humanoid.MoveToFinished:Wait()
+
+				end
+				
+				
+
 
 
 
@@ -384,106 +448,6 @@ if getgenv().UsePathfinding == false then
 		local speed = _G.Speed
 
 
-		local plr = game:GetService("Players").LocalPlayer
-		if getgenv().DisableAnimate == true then
-			plr.Character.Animate.Disabled = true
-		end
-		game.Players.PlayerAdded:Connect(function(plr)
-
-			if plr:GetRankInGroup(2788849) == 12 then
-				local loc = plr
-				local args = {
-					[1] = "A Senior Management has been detected, Leaving to evade a Server ban...",
-					[2] = "All"
-				}
-				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				wait (1.5) 
-				loc:Kick("Senior Joined")
-				wait(1.5)
-				local GuiService = game:GetService("GuiService")
-				local NotificationType = GuiService:GetNotificationTypeList()
-				GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
-
-			end
-		end)
-		--
-		
-		for i,v in pairs(game:GetService("Players"):GetPlayers())  do
-			if plr:GetRankInGroup(2788849) == 12 then
-				plr:Kick("Senior Still in Server..")
-				wait(1.5)
-				local GuiService = game:GetService("GuiService")
-				local NotificationType = GuiService:GetNotificationTypeList()
-				GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
-			end end
-
-		spawn(function()
-			plr.Character.HumanoidRootPart.CFrame = CFrame.new(50, 43, 89)----tp outside
-		end)
-
-		botversion = "V5"
-		local name = "Returner BOT Pathfinding"
-		game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("["..name.."]: "..botversion.." has loaded.","All")
-		game.StarterGui:SetCore("SendNotification", {
-			Title = "By NathanReturns";
-			Text = "Returner BOT Pathfinding Loaded!";
-			Duration = 5;
-		})
-
-		local Player = plr
-		local Character = Player.Character
-		Player.CharacterAdded:Connect(function()
-			repeat task.wait() until Player.Character
-			Character = Player.Character
-		end)
-		Character.ChildAdded:Connect(function(child)
-			if child.Name == "Arrested" then
-				pcall(function()
-					local args = {
-						[1] = "Cuffs detected Bypassing... ",
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				
-				
-				local Settings
-				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
-				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
-				end
-				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
-				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-				Settings.DisableAnimate = getgenv().DisableAnimate
-				Settings.AnimationPack=getgenv().AnimationPack
-				Settings.UsePathfinding =getgenv().UsePathfinding
-				Save()
-
-
-				queue_on_teleport([[
-				 local Settings
-                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-                 getgenv().DisableAnimate = Settings.DisableAnimate
-                 getgenv().AnimationPack = Settings.AnimationPack
-                 getgenv().UsePathfinding = Settings.UsePathfinding
-                 
-                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
-                 
-                 ]])
-
-					wait ()
-
-					rejoin = true
-
-					wait (6)
-				end)
-			end
-		end)
-
-		wait ()
-
-		
-		
-		
-		
 		
 		for i,v in pairs(game.Workspace:GetDescendants()) do
 			if v:IsA("Part") then
