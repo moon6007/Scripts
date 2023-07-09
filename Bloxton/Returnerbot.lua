@@ -2,6 +2,7 @@
 
 
 if LOADED then
+	-- error("Infinite Yield is already running!",0)
 	return
 end
 
@@ -20,6 +21,99 @@ if game.PlaceId == 1990228024 then
 	error("a")
 	return
 end
+
+
+
+
+for i,v in pairs(game.Workspace:GetDescendants()) do
+	if v:IsA("Part") then
+		if v.Name:match("Barrier") or v.Name == "NoSpamToolZone" or v.Name == "SpawnMRs" then
+			v:Destroy()
+		end
+	end
+end
+
+
+local Players = game:GetService("Players")
+
+local groupId = 2788849 -- Group ID
+local requiredRanks = {7} -- Desired ranks to search for
+
+local function getRandomPlayer()
+	local eligiblePlayers = {}
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player:IsInGroup(groupId) then
+			local rank = player:GetRankInGroup(groupId)
+			for _, requiredRank in ipairs(requiredRanks) do
+				if rank == requiredRank then
+					table.insert(eligiblePlayers, player)
+					break
+				end
+			end
+		end
+	end
+	if #eligiblePlayers > 0 then
+		return eligiblePlayers[math.random(1, #eligiblePlayers)]
+	end
+	return nil
+end
+
+
+
+
+
+
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+local PathfindingService = game:GetService("PathfindingService")
+
+
+	local pathParams = {
+		["AgentCanJump"] = true
+	}
+	local path = PathfindingService:CreatePath(pathParams)
+
+
+
+
+local function getPath(destination)
+	path:ComputeAsync(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, destination.Position)
+	return path
+end
+
+local function walkTo(destination)
+	local path = getPath(destination)
+
+	for index, waypoint in pairs(path:GetWaypoints()) do
+		humanoid:MoveTo(waypoint.Position)
+		humanoid.MoveToFinished:Wait()
+	end
+end
+spawn(function()
+game:GetService('RunService').RenderStepped:connect(function()
+	if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
+		game.Players.LocalPlayer.Character.Humanoid.Jump = true
+	end
+
+	end)
+	end)
+
+
+
+
+function sec()
+	local chosenPlayer = getRandomPlayer()
+	targname = chosenPlayer.Name
+
+	print(targname)
+	repeat task.wait()
+		walkTo(game.Players[targname].Character.HumanoidRootPart)
+	until (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - game.Players[targname].Character.HumanoidRootPart.Position).Magnitude <= 5
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("How can I get a job here?","All")
+end
+
+
+
 
 
 
@@ -141,7 +235,7 @@ Character.ChildAdded:Connect(function(child)
 
 			rejoin = true
 
-			wait (6)
+			
 		end)
 	end
 end)
@@ -270,7 +364,17 @@ if getgenv().UsePathfinding == false then
 
 				wait (speed)
 
-
+				
+				sec()
+				
+					wait(speed)
+					
+					path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(113,44,89)) -- walks to reg 1
+					for i,v in pairs(path:GetWaypoints()) do
+						Humanoid:MoveTo(v.Position)
+						Humanoid.MoveToFinished:Wait()
+					end
+				
 				plr.Character.Humanoid.WalkToPoint = Vector3.new(29, 43, 88)---------walk to housekeeping
 				plr.Character.Humanoid.MoveToFinished:Wait()
 				plr.Character.Humanoid.WalkToPoint = Vector3.new(76, 43, 89)
