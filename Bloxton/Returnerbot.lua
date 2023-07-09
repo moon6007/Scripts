@@ -1,5 +1,6 @@
 --originally By NathanReturns additions by mo_on
 
+
 if LOADED then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -21,6 +22,7 @@ if game.PlaceId == 1990228024 then
 	return
 end
 
+local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 
 
 
@@ -62,7 +64,7 @@ end
 
 
 
-local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+local humanoid = Character:WaitForChild("Humanoid")
 
 local PathfindingService = game:GetService("PathfindingService")
 
@@ -124,7 +126,6 @@ for i,v in pairs(game.Workspace:GetDescendants()) do
 		end
 	end
 end
-local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 local function fireproximityprompt(Obj, Amount, Skip)
 	if Obj.ClassName == "ProximityPrompt" then 
 		Amount = Amount or 1
