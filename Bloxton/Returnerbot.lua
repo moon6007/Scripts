@@ -1,7 +1,11 @@
 --originally By NathanReturns additions by mo_on
 
 
+if LOADED then
+	return
+end
 
+pcall(function() getgenv().LOADED = true end)
 
 if game.PlaceId == 1990228024 then
 	else
