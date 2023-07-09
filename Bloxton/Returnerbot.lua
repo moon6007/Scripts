@@ -74,7 +74,6 @@ local PathfindingService = game:GetService("PathfindingService")
 	}
 	local path = PathfindingService:CreatePath(pathParams)
 
-	path:ComputeAsync(game.Players.LocalPlayer.Character.HumanoidRootPart.Position, destination.Position)
 
 
 local function getPath(destination)
