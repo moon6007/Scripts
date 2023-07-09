@@ -3,6 +3,7 @@
 
 
 
+
 if game.PlaceId == 1990228024 then
 	else
 
@@ -19,7 +20,7 @@ end
 
 
 
-
+local rejoin = false
 for i,v in pairs(game.Workspace:GetDescendants()) do
 	if v:IsA("ProximityPrompt") then
 		if v.ObjectText == "Panini Sandwich" then
@@ -202,7 +203,7 @@ elseif getgenv().AnimationPack == "Werewolf" then
 	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1083189019"
 end
 
-local rejoin = false
+
 local TeleportService = game:GetService("TeleportService")
 
 if getgenv().UsePathfinding == false then
