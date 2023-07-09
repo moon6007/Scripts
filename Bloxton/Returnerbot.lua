@@ -3,7 +3,6 @@
 
 
 
-
 if game.PlaceId == 1990228024 then
 	else
 
@@ -28,7 +27,7 @@ for i,v in pairs(game.Workspace:GetDescendants()) do
 		end
 	end
 end
-
+local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 local function fireproximityprompt(Obj, Amount, Skip)
 	if Obj.ClassName == "ProximityPrompt" then 
 		Amount = Amount or 1
@@ -52,7 +51,7 @@ end
 
 local plr = game:GetService("Players").LocalPlayer
 if getgenv().DisableAnimate == true then
-	plr.Character.Animate.Disabled = true
+	Character.Animate.Disabled = true
 end
 game.Players.PlayerAdded:Connect(function(plr)
 
@@ -82,7 +81,7 @@ for i,v in pairs(game:GetService("Players"):GetPlayers())  do
 	end end
 
 spawn(function()
-	plr.Character.HumanoidRootPart.CFrame = CFrame.new(50, 43, 89)----tp outside
+	Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(50, 43, 89)----tp outside
 end)
 
 botversion = "V5"
@@ -95,7 +94,7 @@ game.StarterGui:SetCore("SendNotification", {
 })
 
 local Player = plr
-local Character = Player.Character
+--local Character = Player.Character
 Player.CharacterAdded:Connect(function()
 	repeat task.wait() until Player.Character
 	Character = Player.Character
@@ -134,7 +133,7 @@ Character.ChildAdded:Connect(function(child)
                  
                  ]])
 
-			wait ()
+			wait (2)
 
 			rejoin = true
 
@@ -697,7 +696,7 @@ Dir.DescendantAdded:Connect(function(Err)
                  
                  ]])
 
-				wait()
+				wait(2)
 			rejoin = true
 					
 				end
