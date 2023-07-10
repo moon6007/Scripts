@@ -1,6 +1,5 @@
 --originally By NathanReturns additions by mo_on
 
-
 if LOADED then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -161,9 +160,13 @@ game.Players.PlayerAdded:Connect(function(plr)
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
 		wait (1.5) 
 		--game.Players.LocalPlayer:Kick("Senior Joined")
+		
+		game:GetService("RunService").RenderStepped:Connect(function()
+			game.Players.LocalPlayer:Kick("Senior Joined")
 		local GuiService = game:GetService("GuiService")
 		local NotificationType = GuiService:GetNotificationTypeList()
-		GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+			GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+			end)
 
 	end
 end)
@@ -172,9 +175,13 @@ end)
 for i,v in pairs(game:GetService("Players"):GetPlayers())  do
 	if plr:GetRankInGroup(2788849) == 12 then
 		--plr:Kick("Senior Still in Server..")
-		local GuiService = game:GetService("GuiService")
-		local NotificationType = GuiService:GetNotificationTypeList()
-		GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+		game:GetService("RunService").RenderStepped:Connect(function()
+			game.Players.LocalPlayer:Kick("Senior Joined")
+			local GuiService = game:GetService("GuiService")
+			local NotificationType = GuiService:GetNotificationTypeList()
+			GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+		end)
+
 	end end
 
 spawn(function()
