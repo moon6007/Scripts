@@ -1,7 +1,4 @@
 --originally By NathanReturns additions by mo_on
-
-
-
 if LOADED then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -24,6 +21,64 @@ if game.PlaceId == 1990228024 then
 end
 
 local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+
+
+
+local rejoin = false
+
+
+local Dir = game:GetService("CoreGui"):WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
+Dir.DescendantAdded:Connect(function(Err)
+	if Err.Name == "ErrorTitle" then
+		Err:GetPropertyChangedSignal("Text"):Connect(function()
+			if Err.Text:sub(0, 12) == "Disconnected" then
+				name = game.Players.LocalPlayer.Name
+				if not beforeKicked then
+					beforeKicked = game.Workspace:WaitForChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart").CFrame
+				end
+				local Settings
+				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
+				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
+				end
+				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.UsePathfinding =getgenv().UsePathfinding
+				Save()
+
+
+				queue_on_teleport([[
+				
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().UsePathfinding = Settings.UsePathfinding
+                 
+                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
+                 
+                 ]])
+
+				wait(2)
+				rejoin = true
+
+			end
+		end)
+	end
+end)
+
+spawn(function()
+game["Run Service"].RenderStepped:Connect(function()
+	if rejoin == true then
+		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+	end
+	end)
+	end)
+
+
+
 
 
 
@@ -118,7 +173,7 @@ end
 
 
 
-local rejoin = false
+
 for i,v in pairs(game.Workspace:GetDescendants()) do
 	if v:IsA("ProximityPrompt") then
 		if v.ObjectText == "Panini Sandwich" then
@@ -779,50 +834,3 @@ if getgenv().UsePathfinding == false then
 
 
 
-local Dir = game:GetService("CoreGui"):WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
-Dir.DescendantAdded:Connect(function(Err)
-	if Err.Name == "ErrorTitle" then
-		Err:GetPropertyChangedSignal("Text"):Connect(function()
-			if Err.Text:sub(0, 12) == "Disconnected" then
-				name = game.Players.LocalPlayer.Name
-				if not beforeKicked then
-					beforeKicked = game.Workspace:WaitForChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart").CFrame
-				end
-				local Settings
-				local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",UsePathfinding="nil"}			
-				local function Save()writefile("Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
-				end
-				if not pcall(function() readfile(Name) end) then writefile("Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
-				Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-				Settings.DisableAnimate = getgenv().DisableAnimate
-				Settings.AnimationPack=getgenv().AnimationPack
-				Settings.UsePathfinding =getgenv().UsePathfinding
-				Save()
-
-
-				queue_on_teleport([[
-				
-				 local Settings
-                 Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
-                 getgenv().DisableAnimate = Settings.DisableAnimate
-                 getgenv().AnimationPack = Settings.AnimationPack
-                 getgenv().UsePathfinding = Settings.UsePathfinding
-                 
-                 loadstring(game:HttpGet("https://raw.githubusercontent.com/moon734/Scripts/main/Bloxton/Returnerbot.lua"))()
-                 
-                 ]])
-
-				wait(2)
-			rejoin = true
-					
-				end
-		end)
-	end
-end)
-
-
-game["Run Service"].RenderStepped:Connect(function()
-	if rejoin == true then
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-		end
-end)
