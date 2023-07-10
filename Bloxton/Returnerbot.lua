@@ -1,5 +1,7 @@
 --originally By NathanReturns additions by mo_on
 
+
+
 if LOADED then
 	-- error("Infinite Yield is already running!",0)
 	return
@@ -162,10 +164,10 @@ game.Players.PlayerAdded:Connect(function(plr)
 		--game.Players.LocalPlayer:Kick("Senior Joined")
 		
 		game:GetService("RunService").RenderStepped:Connect(function()
-			game.Players.LocalPlayer:Kick("Senior Joined")
-		local GuiService = game:GetService("GuiService")
-		local NotificationType = GuiService:GetNotificationTypeList()
-			GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+			local Teleport = game:GetService("TeleportService")
+
+
+			Teleport:Teleport(4483381587, game.Players.LocalPlayer)
 			end)
 
 	end
@@ -176,10 +178,10 @@ for i,v in pairs(game:GetService("Players"):GetPlayers())  do
 	if plr:GetRankInGroup(2788849) == 12 then
 		--plr:Kick("Senior Still in Server..")
 		game:GetService("RunService").RenderStepped:Connect(function()
-			game.Players.LocalPlayer:Kick("Senior Joined")
-			local GuiService = game:GetService("GuiService")
-			local NotificationType = GuiService:GetNotificationTypeList()
-			GuiService:BroadcastNotification("", NotificationType.NATIVE_EXIT)
+			local Teleport = game:GetService("TeleportService")
+
+
+			Teleport:Teleport(4483381587, game.Players.LocalPlayer)
 		end)
 
 	end end
