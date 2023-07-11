@@ -147,8 +147,8 @@ local function walkTo(destination)
 end
 spawn(function()
 game:GetService('RunService').RenderStepped:connect(function()
-	if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
-		game.Players.LocalPlayer.Character.Humanoid.Jump = true
+	if Humanoid.Sit == true then
+		Humanoid.Jump = true
 	end
 
 	end)
