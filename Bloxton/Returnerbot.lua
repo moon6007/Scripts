@@ -1,6 +1,6 @@
 --originally By NathanReturns additions by mo_on
+
 if LOADED then
-	-- error("Infinite Yield is already running!",0)
 	return
 end
 
@@ -8,9 +8,6 @@ pcall(function() getgenv().LOADED = true end)
 
 if game.PlaceId == 1990228024 then
 	else
-
-	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("ERROR! Returner BOT only supports Blox-ton Hotels.", "All")
-
 	game.StarterGui:SetCore("SendNotification", {
 		Title = "Error!";
 		Text = "ReturnerBOT does not Support this game.";
@@ -145,14 +142,7 @@ local function walkTo(destination)
 		humanoid.MoveToFinished:Wait()
 	end
 end
-spawn(function()
-game:GetService('RunService').RenderStepped:connect(function()
-	if Humanoid.Sit == true then
-		Humanoid.Jump = true
-	end
 
-	end)
-	end)
 
 
 
@@ -164,7 +154,7 @@ function sec()
 	print(targname)
 	repeat task.wait()
 		walkTo(game.Players[targname].Character.HumanoidRootPart)
-	until (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - game.Players[targname].Character.HumanoidRootPart.Position).Magnitude <= 5
+	until (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - game.Players[targname].Character.HumanoidRootPart.Position).Magnitude <= 5 or chosenPlayer == nil
 	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("How can I get a job here?","All")
 end
 
@@ -174,13 +164,7 @@ end
 
 
 
-for i,v in pairs(game.Workspace:GetDescendants()) do
-	if v:IsA("ProximityPrompt") then
-		if v.ObjectText == "Panini Sandwich" then
-			
-		end
-	end
-end
+
 local function fireproximityprompt(Obj, Amount, Skip)
 	if Obj.ClassName == "ProximityPrompt" then 
 		Amount = Amount or 1
@@ -278,7 +262,6 @@ Character.ChildAdded:Connect(function(child)
 			Settings = game:service'HttpService':JSONDecode(readfile("Returnerbot.hi"))
 			Settings.DisableAnimate = getgenv().DisableAnimate
 			Settings.AnimationPack=getgenv().AnimationPack
-			Settings.UsePathfinding =getgenv().UsePathfinding
 			Save()
 
 
@@ -366,8 +349,8 @@ end
 
 local TeleportService = game:GetService("TeleportService")
 
-if getgenv().UsePathfinding == false then
-	local speed = _G.Speed
+
+local speed = getgenv().Speed
 	
 	spawn(function()
 		plr.Character.Humanoid.WalkToPoint = Vector3.new(76, 44, 89)--walks on carpet thing
@@ -610,227 +593,15 @@ if getgenv().UsePathfinding == false then
 				wait (speed)
 			end)
 		until false
-		end)
-	elseif getgenv().UsePathfinding == true then
-		
-		
-		
-		
-		local speed = _G.Speed
+end)
 
-
-		
-		for i,v in pairs(game.Workspace:GetDescendants()) do
-			if v:IsA("Part") then
-				if v.Name:match("Barrier") or v.Name == "NoSpamToolZone" or v.Name == "SpawnMRs" then
-					v:Destroy()
-				end
-			end
-		end
-		
-		
-		spawn(function()
-			local Path = Pathfinding:CreatePath({ AgentCanJump = false })
-			Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(76, 44, 89))
-			for i,v in pairs(Path:GetWaypoints()) do
-				Humanoid:MoveTo(v.Position)
-				Humanoid.MoveToFinished:Wait()
-			end
-		end)
-		plr.Character.Humanoid.MoveToFinished:Wait()
-		
-		
-		spawn(function()
-			repeat task.wait(1)
-				
-				-- 76, 44, 89
-				
-				
-				local Path = Pathfinding:CreatePath({ AgentCanJump = false })
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				
-				
-				wait()
-
-				pcall(function()
-					local args = {
-						[1] = "Room please. ",----asks for room from reg2
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-				
-				wait(speed)
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 44, 76)) -- walks to reg 1
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				
-				wait ()
-
-				pcall(function()
-					local args = {
-						[1] = "May I have a room? ",----asks for room from reg1
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-				
-				wait(speed)
-				
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				
-				wait ()
-
-				pcall(function()
-					local args = {
-						[1] = "Can I have one of your rooms? ",----asks for room from reg2 again
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end)
-
-				wait (speed)
-				
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(139, 44, 156)) -- walks to housekeeping
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				
-				wait()
-				pcall(function()
-					local args = {
-					[1] = "Can someone clean my room?",----asks for someone to clean room
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-			end)
-			
-			wait(.2)
-
-			pcall(function()
-				local args = {
-					[1] = "Can one of the housekeepers clean my room?",----asks for someone to clean room
-					[2] = "All"
-				}          
-				game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-			end)
-				
-				wait(speed)
-				
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 28)) -- walks to bar
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				
-				
-				pcall(function()
-					local args = {
-						[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-
-				wait (speed)
-				
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 19)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-
-				pcall(function()
-					local args = {
-						[1] = "Can I get a Chocolate Milkshake, a Cookie and a bag of Nachos please? ",----asks for food
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-				wait (speed)
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(68, 43, 10)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-				pcall(function()
-					local args = {
-						[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-				
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-
-
-
-
-				pcall(function()
-					local args = {
-						[1] = "Room please. ",----asks for room from reg2
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-
-				wait (speed)
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 44, 76)) -- walks to reg 1
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-
-				pcall(function()
-					local args = {
-						[1] = "May I have a room? ",----asks for room from reg1
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end
-				)
-
-				wait (speed)
-
-				Path:ComputeAsync(HumanoidRootPart.Position, Vector3.new(145, 43, 90)) -- walks to reg 2
-				for i,v in pairs(Path:GetWaypoints()) do
-					Humanoid:MoveTo(v.Position)
-					Humanoid.MoveToFinished:Wait()
-				end
-
-				pcall(function()
-					local args = {
-						[1] = "Can I have one of your rooms? ",----asks for room from reg2 again
-						[2] = "All"
-					}          
-					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-				end)
-				wait(speed)
-			until false
-			end)
-		
+--[[
+spawn(function()
+	game:GetService('RunService').RenderStepped:connect(function()
+		if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
+			game.Players.LocalPlayer.Character.Humanoid.Jump = true
 		end
 
-
-
+	end)
+end)
+--]]
