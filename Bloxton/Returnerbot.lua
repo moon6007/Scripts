@@ -238,6 +238,9 @@ game.StarterGui:SetCore("SendNotification", {
 	Duration = 5;
 })
 
+task.wait(.1)
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Returner BOT v6 comming soon","All")
+
 local Player = plr
 --local Character = Player.Character
 Player.CharacterAdded:Connect(function()
