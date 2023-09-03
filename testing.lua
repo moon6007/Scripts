@@ -1,6 +1,6 @@
 local robloxapi = {}
 
-robloxapi.GetXcsrfToken(function(theheaders)
+function  robloxapi.GetXcsrfToken(theheaders)
 	local auth_response = request({
 		Url = "https://auth.roblox.com/v1/logout",
 		Method = "POST",
