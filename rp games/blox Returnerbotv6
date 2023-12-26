@@ -1,1 +1,588 @@
 
+repeat wait() until game:IsLoaded()
+
+if getgenv().LOADED then
+	return
+end
+pcall(function() getgenv().LOADED = true end)
+
+if game.PlaceId == 1990228024 then
+else
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Error!";
+		Text = "ReturnerBOT does not Support this game.";
+		Duration = 5;
+	})
+	error("a")
+	return
+end
+
+
+local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(6, 201, -274)
+
+
+
+local Dir = game:GetService("CoreGui"):WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
+local Settings
+local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",rejoined="nil",botgoingto="nil",SmallMode="nil"}			
+local function Save()writefile(game.Players.LocalPlayer.Name.."Returnerbot.hi",game:service'HttpService':JSONEncode(Settings))
+end
+local botgoing = "starting"
+
+function queueonteleport()
+	queue_on_teleport([[
+				
+				 local Settings
+                 Settings = game:service'HttpService':JSONDecode(readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi"))
+                 getgenv().DisableAnimate = Settings.DisableAnimate
+                 getgenv().AnimationPack = Settings.AnimationPack
+                 getgenv().SmallMode = Settings.SmallMode
+                print(Settings.botgoingto.." rejoin")
+                 
+                              
+                 loadstring(game:HttpGet('https://raw.githubusercontent.com/moon734/Scripts/main/rp%20games/blox%20Returnerbotv6'))()
+
+                 
+                 
+                 
+                 ]])
+end
+local rejoin = false
+
+
+Dir.DescendantAdded:Connect(function(Err)
+	if Err.Name == "ErrorTitle" then
+		Err:GetPropertyChangedSignal("Text"):Connect(function()
+			if Err.Text:sub(0, 12) == "Disconnected" then
+				if not pcall(function() readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi") end) then writefile(game.Players.LocalPlayer.Name.."Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.rejoined = "t"
+				Settings.botgoingto = botgoing
+				Settings.SmallMode = getgenv().SmallMode
+				Save()
+
+
+				queueonteleport()
+
+				wait(2)
+				rejoin = true
+
+			end
+		end)
+	end
+end)
+
+
+
+
+
+
+
+
+-- List of messages without filtering
+local room = {
+	"Give me a room, please.",
+	"I need a room right now.",
+	"Can you help me find a room?",
+	"I really need a room.",
+	"Please arrange a room for me.",
+	"Is it possible to get a room?",
+	"I'm in search of a room.",
+	"Could you assist with a room?",
+	"I want a room as soon as possible.",
+	"I'm looking for a room, can you help?"
+}
+
+
+local cuffeds = {
+	"What's your problem? Why cuff me?",
+	"I demand an explanation! Why the cuffs?",
+	"Are you kidding me? Why did you cuff me?",
+	"This is outrageous! Why the handcuffs?",
+	"You've got some nerve! Why am I cuffed?",
+	"Explain yourself now! Why the cuffs?",
+	"I'm furious! Why did you put these cuffs on me?",
+	"You better have a good reason! Why the cuffs?",
+	"I can't believe this! Why am I cuffed?",
+	"What the heck? Why did you cuff me?"
+}
+
+local whyareyounotcleaningmyroom = {
+	"WHY AREN'T YOU CLEANING MY ROOM? YOU'RE A HOUSEKEEPER! CLEAN IT NOW!",
+	"YOU'RE A HOUSEKEEPER, SO WHY ISN'T MY ROOM CLEAN? CLEAN IT RIGHT AWAY!",
+	"ISN'T IT YOUR JOB AS A HOUSEKEEPER TO CLEAN MY ROOM? DO IT NOW!",
+	"MY ROOM IS MESSY. SHOULDN'T YOU BE CLEANING IT AS A HOUSEKEEPER? CLEAN IT IMMEDIATELY!",
+	"I HIRED YOU TO CLEAN MY ROOM. WHY ISN'T IT CLEAN YET? CLEAN IT NOW!",
+	"WHY IS MY ROOM STILL DIRTY WHEN YOU'RE A HOUSEKEEPER? CLEAN IT THIS INSTANT!",
+	"AS A HOUSEKEEPER, YOUR DUTY IS TO CLEAN MY ROOM, RIGHT? THEN CLEAN IT RIGHT NOW!",
+	"MY ROOM NEEDS CLEANING, AND YOU'RE THE HOUSEKEEPER. CLEAN IT WITHOUT DELAY!",
+	"YOU'RE MY HOUSEKEEPER, SO WHY IS MY ROOM A MESS? CLEAN IT IMMEDIATELY!",
+	"WHY HAVEN'T YOU CLEANED MY ROOM YET? YOU'RE THE HOUSEKEEPER. DO IT NOW!",
+	"I EXPECTED MY ROOM TO BE CLEAN BY NOW. YOU'RE THE HOUSEKEEPER, AFTER ALL. CLEAN IT!",
+	"YOU'RE HIRED AS A HOUSEKEEPER. CLEAN MY ROOM, PLEASE, RIGHT NOW!",
+	"I CAN'T UNDERSTAND WHY MY ROOM ISN'T CLEAN. YOU'RE THE HOUSEKEEPER, AREN'T YOU? CLEAN IT!",
+	"MY ROOM IS IN DISARRAY. AREN'T YOU THE HOUSEKEEPER RESPONSIBLE FOR CLEANING IT? CLEAN IT NOW!",
+	"WHY IS MY ROOM UNTOUCHED WHEN YOU'RE SUPPOSED TO BE THE HOUSEKEEPER? CLEAN IT IMMEDIATELY!",
+	"MY ROOM IS A DISASTER, AND YOU'RE THE HOUSEKEEPER ON DUTY. CLEAN IT RIGHT AWAY!",
+	"YOU'RE MY HOUSEKEEPER. MY ROOM SHOULD BE CLEAN BY NOW. CLEAN IT WITHOUT HESITATION!",
+	"WHY HASN'T MY ROOM BEEN CLEANED? YOU'RE THE HOUSEKEEPER, RIGHT? CLEAN IT NOW!",
+	"I HIRED YOU TO KEEP MY HOUSE CLEAN, INCLUDING MY ROOM. CLEAN IT IMMEDIATELY!",
+	"MY ROOM IS A MESS, AND YOU'RE THE HOUSEKEEPER. DO YOUR JOB AND CLEAN IT NOW!",
+	"WHY ISN'T MY ROOM CLEAN? YOU'RE THE HOUSEKEEPER! CLEAN IT THIS INSTANT!"
+}
+
+
+-- Function to get a random index
+local function getRandomIndex(previousIndex,tablel)
+	local index = math.random(#tablel)
+	while index == previousIndex do
+		index = math.random(#tablel)
+	end
+	return index
+end
+math.randomseed(os.time())
+local previousIndex = 0
+
+function say(tablel)
+	
+	
+	local index = getRandomIndex(previousIndex,tablel)
+	local selectedMessage = tablel[index]
+
+
+	previousIndex = index
+	
+	game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
+end
+
+
+
+
+
+
+
+
+
+
+game.Players.PlayerRemoving:Connect(function(plr)
+	if plr.Name == game.Players.LocalPlayer.Name then
+		if Dir:FindFirstChild("ErrorTitle") then
+			if Dir:FindFirstChild("ErrorTitle").Text:sub(0, 12) == "Disconnected" then
+
+				if not pcall(function() readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi") end) then writefile(game.Players.LocalPlayer.Name.."Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+				Settings.DisableAnimate = getgenv().DisableAnimate
+				Settings.AnimationPack=getgenv().AnimationPack
+				Settings.rejoined = "t"
+				Settings.botgoingto = botgoing
+				Settings.SmallMode = getgenv().SmallMode
+				Save()
+
+
+				queueonteleport()
+
+				wait(2)
+				rejoin = true
+			end
+		end
+	end
+end)
+
+
+
+
+if not pcall(function() readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi") end) then writefile(game.Players.LocalPlayer.Name.."Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+Settings = game:service'HttpService':JSONDecode(readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi"))
+if Settings.rejoined == "t"  then
+	print("rejoined")
+	botgoing = Settings.botgoingto
+	Settings.rejoined = "f"
+end
+
+
+spawn(function()
+	game["Run Service"].RenderStepped:Connect(function()
+		if rejoin == true then
+			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+		end
+	end)
+end)
+
+local plr = game:GetService("Players").LocalPlayer
+if getgenv().DisableAnimate == true then
+	Character.Animate.Disabled = true
+end
+
+local groupId = 2788849
+local Ranks = {12, 14, 15, 16} -- Assuming 12, 14, 15, and 16 are HR ranks
+local teleportPlaceId = 4483381587 -- The place ID to teleport HRs to
+
+local function handle(player)
+	local message = "An HR or MR+ member has been detected, leaving to evade a server ban or pban..."
+
+	 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+
+	game:GetService("RunService").RenderStepped:Connect(function()
+		-- Teleport the HR to the specified place in a loop
+		local teleportService = game:GetService("TeleportService")
+		teleportService:Teleport(teleportPlaceId, player)
+		
+	end)
+end
+
+
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+	if player then
+		task.wait(0.1)
+		if player.TeamColor == BrickColor.new("Sunrise") or player.TeamColor == BrickColor.new("Lilac") then
+
+			print(player.Name)
+			if table.find(Ranks, player:GetRankInGroup(groupId)) then
+				print(player.Name)
+
+				handle(player)
+				end
+			end
+	end
+end
+
+-- Connect the player added event to handle HRs when they join the game
+game.Players.PlayerAdded:Connect(function(player)
+	if player then
+		task.wait(0.1)
+		if player.TeamColor == BrickColor.new("Sunrise") or player.TeamColor == BrickColor.new("Lilac") then
+
+print(player.Name)
+			if table.find(Ranks, player:GetRankInGroup(groupId)) then
+				print(player.Name)
+
+				handle(player)
+				end
+			end
+	end
+end)
+local teleportLocations = {
+	["starting"] = CFrame.new(50, 43, 89),
+	["reg 2"] = CFrame.new(125, 44, 90),
+	["reg 1"] = CFrame.new(119, 44, 90),
+	["reg 2 ag"] = CFrame.new(118, 44, 74),
+	["housekeeping"] = CFrame.new(29, 43, 88),
+	["bar"] = CFrame.new(115, 44, 156),
+	["reg2ag"] = CFrame.new(113, 44, 60),
+	["reg1ag"] = CFrame.new(119, 44, 90),
+	["reg2agag"] = CFrame.new(118, 44, 74)
+}
+
+
+spawn(function()
+	local location = teleportLocations[botgoing]
+	if location then
+		Character:WaitForChild("HumanoidRootPart").CFrame = location
+	end
+end)
+
+botversion = "V6.testing"
+local name = "Returner BOT"
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("["..name.."]: "..botversion.." has loaded.","All")
+game.StarterGui:SetCore("SendNotification", {
+	Title = "Returner BOT";
+	Text = "Returner BOT Loaded! originally By NathanReturns additions by mo_on";
+	Duration = 5;
+})
+
+
+
+if getgenv().SmallMode == true then
+	local args = {
+		[1] = "Toddler"
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("DataEvents"):WaitForChild("sendMorphData"):FireServer(unpack(args))
+
+end
+
+
+local cuffed = false
+local Player = plr
+--local Character = Player.Character
+Player.CharacterAdded:Connect(function()
+	repeat task.wait() until Player.Character
+	Character = Player.Character
+end)
+	
+	local function ProcessArrestedChild()
+		local character = game.Players.LocalPlayer.Character
+
+		if character then
+			local arrestedChild = character:FindFirstChild("Arrested")
+			if arrestedChild and cuffed == false then
+	
+                      say(cuffeds)
+					if not pcall(function() readfile(game.Players.LocalPlayer.Name.."Returnerbot.hi") end) then writefile(game.Players.LocalPlayer.Name.."Returnerbot.hi", game:service'HttpService':JSONEncode(DefaultSettings)) end
+					Settings.DisableAnimate = getgenv().DisableAnimate
+					Settings.AnimationPack=getgenv().AnimationPack
+					Settings.rejoined = "t"
+				Settings.botgoingto = botgoing
+				Settings.SmallMode = getgenv().SmallMode
+					Save()
+					--    loadstring(game:HttpGet("https://raw.githubusercontent.com/oldAccount894/private/main/hi.lua"))()
+
+				queueonteleport()
+
+
+					wait (3)
+					rejoin = true
+					cuffed = true
+				
+			end
+		end
+	end
+spawn(function()
+	while true do
+		ProcessArrestedChild()
+		wait(1)  -- Adjust the delay as needed
+	end
+end)
+
+
+local LocalPlayer = game.Players.LocalPlayer
+local Character = LocalPlayer.Character
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+local Humanoid = Character:WaitForChild("Humanoid")
+
+
+for i,v in pairs(Humanoid:GetPlayingAnimationTracks()) do
+	v:Stop()
+end
+
+
+
+
+
+
+
+local Animate = game.Players.LocalPlayer.Character.Animate
+if  getgenv().AnimationPack == "Knight" then
+
+	Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=657595757"
+	Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=657568135"
+	Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=657552124"
+	Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=657564596"
+	Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=658409194"
+	Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=658360781"
+	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=657600338"
+
+elseif  getgenv().AnimationPack == "Astronaut" then
+	Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=891621366"
+	Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=891633237"
+	Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=891667138"
+	Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=891636393"
+	Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=891627522"
+	Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=891609353"
+	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=891617961"
+
+elseif getgenv().AnimationPack == "Werewolf" then
+	Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1083195517"
+	Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1083214717"
+	Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1083178339"
+	Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1083216690"
+	Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1083218792"
+	Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1083182000"
+	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1083189019"
+end
+
+
+
+local hi = Instance.new("Part")
+hi.Position = Vector3.new(78.395, 50.287, 66.587)
+hi.Anchored = true
+hi.Size = Vector3.new(10.654, 20.043, 0.001)
+hi.Parent = workspace
+
+
+for i,v in pairs(game.Workspace:GetDescendants()) do
+	if v:IsA("Part") then
+		if v.Name:match("Barrier") or v.Name == "NoSpamToolZone" then
+			v:Destroy()
+		end
+	end
+end
+
+
+local pathfinding = game:GetService("PathfindingService")
+local TeleportService = game:GetService("TeleportService")
+spawn(function()
+while wait() do
+	if game.Players.LocalPlayer.Character.Humanoid.Sit == true then game.Players.LocalPlayer.Character.Humanoid.Jump = true end
+
+end
+end)
+function walkto(pos)
+	local AgentParams = {
+		AgentCanJump = true,
+		Costs = {
+			seat = math.huge
+		}
+	}
+	local path = pathfinding:CreatePath(AgentParams)
+	path:ComputeAsync(game.Players.LocalPlayer.Character.PrimaryPart.Position - Vector3.new(0, game.Players.LocalPlayer.Character.PrimaryPart.Size.Y/0.75, 0), pos)
+	local waypoints = path:GetWaypoints()
+	for _, waypoint in pairs(waypoints) do  
+		
+		if waypoint.Action == Enum.PathWaypointAction.Jump then game.Players.LocalPlayer.Character.Humanoid.Jump = true print('jump') end
+		game.Players.LocalPlayer.Character.Humanoid:MoveTo(waypoint.Position)
+		game.Players.LocalPlayer.Character.Humanoid.MoveToFinished:Wait()
+		
+
+	end
+
+end
+
+
+
+local speed = getgenv().Speed
+if botgoing == "starting" then
+	spawn(function()
+		walkto(Vector3.new(76, 44, 89))
+	end)
+	plr.Character.Humanoid.MoveToFinished:Wait()
+	botgoing = "reg 2"
+end
+
+
+
+
+
+
+function reg2()
+	walkto(Vector3.new(145, 44, 84))---walks to reg 2 2
+	wait()
+	say(room)
+end
+
+
+function reg1() -- aaa
+	walkto(Vector3.new(145, 44, 71))
+	wait ()
+	say(room)
+end
+
+
+function reg2again() --aa
+	walkto(Vector3.new(145, 44, 84))
+	wait ()
+	say(room)
+end
+
+
+function housekeeping() -- aa
+	walkto(Vector3.new(30, 44, 87))
+	walkto(Vector3.new(139, 44, 155))
+	wait()
+	
+	pcall(function()
+		local args = {
+			[1] = "Can someone clean my room?",----asks for someone to clean room
+			[2] = "All"
+		}          
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+	end)
+	wait(1)
+
+	say(whyareyounotcleaningmyroom)
+	
+	
+end
+
+
+
+function bar() -- aa
+	walkto(Vector3.new(30, 44, 87)) ---------walk to bar
+	walkto(Vector3.new(68, 43, 28)) ---------walk to seat
+
+	pcall(function()
+		local args = {
+			[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
+			[2] = "All"
+		}          
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+	end
+	)
+
+	wait (speed)
+	walkto(Vector3.new(68, 43, 19))
+	pcall(function()
+		local args = {
+			[1] = "Can I get a Chocolate Milkshake, a Cookie and a bag of Nachos please? ",----asks for food
+			[2] = "All"
+		}          
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+	end
+	)
+	wait (speed)
+	walkto(Vector3.new(68, 43, 10))
+	pcall(function()
+		local args = {
+			[1] = "Could I have a Churro, Nachos and Chips please? ",----asks for food
+			[2] = "All"
+		}          
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+	end
+	)
+end
+
+
+function reg2ag() -- aa
+	walkto(Vector3.new(145, 44, 84))
+	wait()
+	say(room)
+end
+
+
+function reg1ag() -- aa
+	walkto(Vector3.new(145, 44, 71))
+	wait()
+	say(room)
+end
+
+
+function reg2agag() 
+	print("hi")
+	walkto(Vector3.new(145, 44, 84))
+	wait()
+
+	say(room)
+end
+local transitions = {
+	["reg 2"] = { func = reg2, nextBotgoing = "reg 1" },
+	["reg 1"] = { func = reg1, nextBotgoing = "reg 2 ag" },
+	["reg 2 ag"] = { func = reg2again, nextBotgoing = "housekeeping" },
+	["housekeeping"] = { func = housekeeping, nextBotgoing = "bar" },
+	["bar"] = { func = bar, nextBotgoing = "reg2ag" },
+	["reg2ag"] = { func = reg2ag, nextBotgoing = "reg1ag" },
+	["reg1ag"] = { func = reg1ag, nextBotgoing = "reg2agag" },
+	["reg2agag"] = { func = reg2agag, nextBotgoing = "reg 2" }
+}
+
+
+
+
+
+
+local function executeFunction(func)
+	pcall(func)
+	wait(speed)
+end
+spawn(function()
+repeat wait(1)
+	local transition = transitions[botgoing]
+	if transition then
+		executeFunction(transition.func)
+		botgoing = transition.nextBotgoing
+	end
+
+until false
+end)
+
