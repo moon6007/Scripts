@@ -1,6 +1,6 @@
 
 repeat wait() until game:IsLoaded()
-
+print("s")
 if getgenv().LOADED then
 	return
 end
