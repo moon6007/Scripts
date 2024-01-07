@@ -464,7 +464,7 @@ function OrionLib:Init()
 	end	
 end	
 
-function OrionLib:Main(WindowConfig)
+function OrionLib.Main(WindowConfig)
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
