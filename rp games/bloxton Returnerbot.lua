@@ -139,7 +139,7 @@ local function walkTo(destination)
 
 	for index, waypoint in pairs(path:GetWaypoints()) do
 		humanoid:MoveTo(waypoint.Position)
-		humanoid.MoveToFinished:Wait()
+		
 	end
 end
 
