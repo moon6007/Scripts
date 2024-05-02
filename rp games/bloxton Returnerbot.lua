@@ -66,13 +66,13 @@ Dir.DescendantAdded:Connect(function(Err)
 	end
 end)
 
-spawn(function()
-game["Run Service"].RenderStepped:Connect(function()
-	if rejoin == true then
-		game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
-	end
-	end)
-	end)
+--spawn(function()
+--game["Run Service"].RenderStepped:Connect(function()
+	--if rejoin == true then
+	--	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
+	--end
+	--end)
+	--end)
 
 
 
