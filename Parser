@@ -1,0 +1,55 @@
+--Credits to LIP
+local LIP = {}
+LIP.__index = LIP
+function LIP:load(fileName)
+	assert(type(fileName) == "string", string.format("Expected string as argument #1, got %s", type(fileName)))
+	assert(pcall(readfile, fileName), string.format("The Ini file with the name '%s' doesn't exist in workspace folder", fileName or "empty"))
+	local data = {}
+	local section
+	local file = readfile(fileName)
+	for index, line in pairs(file:split("\n")) do
+		local tempSection = line:match("^%[([^%[%]]+)%]$")
+		if(tempSection)then
+			section = tonumber(tempSection) and tonumber(tempSection) or tempSection
+			data[section] = data[section] or {}
+		end
+		local param, value = line:match("^([%w|_]+)%s-=%s-(.+)$")
+		if(param and value ~= nil)then
+			if(tonumber(value))then
+				value = tonumber(value)
+			elseif(value == "true")then
+				value = true
+			elseif(value == "false")then
+				value = false
+			end
+			if(tonumber(param))then
+				param = tonumber(param)
+			end
+			data[section][param] = value
+		end
+	end
+	return data
+end
+
+function LIP:save(fileName, data)
+	assert(writefile, "Your exploit doesn't support writefile.")
+	assert(type(fileName) == "string", string.format("Expected string as argument #1, got %s", type(fileName)))
+	assert(type(data) == "table", string.format("Expected table as argument #2, got %s", type(data)))
+	local contents = ""
+	for section, param in pairs(data) do
+		contents = contents .. ("[%s]\n"):format(section)
+		for key, value in pairs(param) do
+			contents = contents .. ("%s=%s\n"):format(key, tostring(value))
+		end
+		contents = contents .. "\n"
+	end
+	writefile(fileName, contents)
+end
+
+function LIP:delete(fileName)
+	assert(delfile, "Your exploit doesn't support delfile.")
+	assert(type(fileName) == "string", string.format("Expected string as argument #1, got %s", type(fileName)))
+	assert(pcall(delfile, fileName), string.format("Failed to delete ini file named '%s'", fileName or "empty"))
+	return true
+end
+return LIP
