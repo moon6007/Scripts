@@ -1,14 +1,6 @@
 --originally By NathanReturns additions by mo_on
 
 
-getgenv().DisableAnimate = false
-getgenv().AnimationPack = "Werewolf" 
-getgenv().Speed = 0.5 
-getgenv().SmallMode = false 
-getgenv().walkspeed = 99
-getgenv().noclip = true
-
-
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
@@ -75,7 +67,8 @@ function queueonteleport()
                  
                               
                
-loadstring(readfile("a.txt"))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/moon6007/Scripts/main/rp%20games/ReturnerBOT%20v6'))()
+
                  
                  ]])
 end
