@@ -1,6 +1,13 @@
 --originally By NathanReturns additions by mo_on
 
 
+getgenv().DisableAnimate = false
+getgenv().AnimationPack = "Werewolf" 
+getgenv().Speed = 0.5 
+getgenv().SmallMode = false 
+getgenv().walkspeed = 99
+getgenv().noclip = true
+
 
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
@@ -139,33 +146,27 @@ function GetGun()
 
 end
 
+local oldindex = "nil"
 function say(tablel)
-	local function getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
-		local newIndex
-		repeat
-			newIndex = math.random(1, #tablel)
-		until newIndex ~= previousIndex and not excludedIndices[newIndex]
-		return newIndex
+	index = math.random(1, #tablel)
+	
+	while index == oldindex do
+		index = math.random(#tablel)
 	end
-
-	local excludedIndices = {}
-	local index = getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
 	local selectedMessage = tablel[index]
 
-	table.insert(excludedIndices, index)
-
-	previousIndex = index
+	oldindex = index
 	if selectedMessage == "PUT YOUR HANDS UP, THIS IS A ROBBERY." and checkifcanbuy() then
 		GetGun()
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
 		task.wait(3)
 		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):UnequipTools()
+		oldindex = selectedMessage
 	else
-		local newIndex = getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
-		selectedMessage = tablel[newIndex]
-		table.insert(excludedIndices, newIndex)
+
 
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
+		oldindex = selectedMessage
 	end
 end
 
