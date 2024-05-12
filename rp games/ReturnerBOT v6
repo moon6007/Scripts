@@ -1,6 +1,14 @@
 --originally By NathanReturns additions by mo_on
 
 
+getgenv().DisableAnimate = false
+getgenv().AnimationPack = "Werewolf" 
+getgenv().Speed = 0.5 
+getgenv().SmallMode = false 
+getgenv().walkspeed = 99
+getgenv().noclip = true
+
+
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
@@ -68,7 +76,6 @@ function queueonteleport()
                               
                
 loadstring(game:HttpGet('https://raw.githubusercontent.com/moon6007/Scripts/main/rp%20games/ReturnerBOT%20v6'))()
-
                  
                  ]])
 end
@@ -161,15 +168,7 @@ local whyareyounotcleaningmyroom = {
 
 
 
-local function getRandomIndex(previousIndex,tablel)
-	local index = math.random(#tablel)
-	while index == previousIndex do
-		index = math.random(#tablel)
-	end
-	return index
-end
-math.randomseed(os.time())
-local previousIndex = 0
+
 
 
 function checkifcanbuy()
@@ -193,36 +192,29 @@ function GetGun()
 
 end
 
+local oldindex = "nil"
 function say(tablel)
-	local function getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
-		local newIndex
-		repeat
-			newIndex = math.random(1, #tablel)
-		until newIndex ~= previousIndex and not excludedIndices[newIndex]
-		return newIndex
-	end
+	index = math.random(1, #tablel)
 
-	local excludedIndices = {}
-	local index = getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
+	while index == oldindex do
+		index = math.random(#tablel)
+	end
 	local selectedMessage = tablel[index]
 
-	table.insert(excludedIndices, index)
-
-	previousIndex = index
+	oldindex = index
 	if selectedMessage == "PUT YOUR HANDS UP, THIS IS A ROBBERY." and checkifcanbuy() then
 		GetGun()
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
 		task.wait(3)
 		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):UnequipTools()
+		oldindex = selectedMessage
 	else
-		local newIndex = getRandomIndexExcluding(previousIndex, tablel, excludedIndices)
-		selectedMessage = tablel[newIndex]
-		table.insert(excludedIndices, newIndex)
+
 
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
+		oldindex = selectedMessage
 	end
 end
-
 
 
 
