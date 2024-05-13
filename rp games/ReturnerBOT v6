@@ -737,14 +737,13 @@ if getgenv().noclip == true then
 	floor.Anchored = true
 
 	for i,v in pairs(game.Workspace:GetDescendants()) do
-		if v.Name ~= "CCFloor" and v.Name ~= "StaffArea" then
+		if v.Name ~= "CCFloor" and v.Name ~= "StaffArea" and v.Name ~= "ReturnerBOT" then
 			pcall(function()
 				v.CanCollide = false
 			end)
 		end
 	end
 end
-
 
 for i,v in pairs(game.Workspace:GetDescendants()) do
 	if v:IsA("Part") then
