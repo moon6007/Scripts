@@ -1,5 +1,32 @@
 --originally By NathanReturns additions by mo_on
 
+getgenv().RandomAnimations = false
+getgenv().DisableAnimate = false
+getgenv().Speed = 0.5 
+getgenv().SmallMode = false 
+getgenv().walkspeed = 99
+getgenv().noclip = true
+getgenv().AnimationPack = "e.l.f." 
+--[[
+Astronaut
+Bubbly
+Cartoony
+Elder
+Knight
+Levitation
+Mage
+Ninja
+Pirate
+Robot
+Rthro
+Stylish
+Superhero
+Vampire
+Werewolf
+Zombie
+e.l.f.
+--]]
+
 
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
@@ -192,13 +219,8 @@ local teleportPlaceId = 4483381587
 
 
 
-local useridsres 
-	
-if httpget then
-	useridsres = httpget("https://raw.githubusercontent.com/moon4003/Bloxton/main/MR%2BHR%20userids%20auto%20update")
-else
-	useridsres = game:HttpGet('https://raw.githubusercontent.com/moon4003/Bloxton/main/MR%2BHR%20userids%20auto%20update')
-end
+local useridsres = httpget("https://raw.githubusercontent.com/moon4003/Bloxton/main/MR%2BHR%20userids%20auto%20update")
+
 
 local userids = game:GetService("HttpService"):JSONDecode(useridsres)
 
