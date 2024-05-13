@@ -1,33 +1,5 @@
 --originally By NathanReturns additions by mo_on
 
-getgenv().RandomAnimations = false
-getgenv().DisableAnimate = false
-getgenv().Speed = 0.5 
-getgenv().SmallMode = false 
-getgenv().walkspeed = 99
-getgenv().noclip = true
-getgenv().AnimationPack = "e.l.f." 
---[[
-Astronaut
-Bubbly
-Cartoony
-Elder
-Knight
-Levitation
-Mage
-Ninja
-Pirate
-Robot
-Rthro
-Stylish
-Superhero
-Vampire
-Werewolf
-Zombie
-e.l.f.
---]]
-
-
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
