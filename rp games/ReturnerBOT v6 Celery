@@ -573,6 +573,7 @@ local animationPack = getgenv().AnimationPack
 
 
 if getgenv().RandomAnimations == true then
+	print("yes")
 	local animate = game.Players.LocalPlayer.Character.Animate
 
 
@@ -589,7 +590,8 @@ if getgenv().RandomAnimations == true then
 	animate.climb.ClimbAnim.AnimationId = randomid()
 	
 else
-if animationIDs[animationPack] then
+	if animationIDs[animationPack] then
+		print("testing")
 	local animations = animationIDs[animationPack]
 	local animate = game.Players.LocalPlayer.Character.Animate
 	
