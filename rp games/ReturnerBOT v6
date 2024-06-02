@@ -1,6 +1,36 @@
 --originally By NathanReturns additions by mo_on
 
 
+
+getgenv().RandomAnimations = false
+getgenv().DisableAnimate = false
+getgenv().Speed = 0.5 
+getgenv().SmallMode = false 
+getgenv().walkspeed = 99
+getgenv().noclip = false
+getgenv().AnimationPack = "e.l.f." 
+--[[
+Astronaut
+Bubbly
+Cartoony
+Elder
+Knight
+Levitation
+Mage
+Ninja
+Pirate
+Robot
+Rthro
+Stylish
+Superhero
+Vampire
+Werewolf
+Zombie
+e.l.f.
+--]]
+--originally By NathanReturns additions by mo_on
+
+
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
@@ -40,16 +70,16 @@ local Parser = loadstring(game:HttpGet('https://raw.githubusercontent.com/moon73
 
 function savea(data)
 	print(data)
-	Parser:save(game.Players.LocalPlayer.Name.."settings.ini", {
+	Parser:save(game.Players.LocalPlayer.Name.."settings", {
 		data
 
 	})
 end
-if  isfile(game.Players.LocalPlayer.Name.."settings.ini") then
+if  isfile(game.Players.LocalPlayer.Name.."settings") then
 else
 	savea(why)
 end
-local Data = Parser:load(game.Players.LocalPlayer.Name.."settings.ini")
+local Data = Parser:load(game.Players.LocalPlayer.Name.."settings")
 
 local botgoing = "starting"
 
@@ -57,7 +87,7 @@ function queueonteleport()
 	queue_on_teleport([[
 	         local Parser = loadstring(game:HttpGet('https://raw.githubusercontent.com/moon734/Scripts/main/Parser'))()
 
-				local Data = Parser:load(game.Players.LocalPlayer.Name.."settings.ini")
+				local Data = Parser:load(game.Players.LocalPlayer.Name.."settings")
 
 				
                
@@ -704,7 +734,7 @@ if Humanoid then
 end
 
 
-
+--[[
 local a=Instance.new"Folder"
 local b=Instance.new"Part"
 b.Name="ReturnerBOT"
@@ -725,8 +755,8 @@ c.Size=Vector3.new(13.438224792480469,2.474504232406616,4.071014404296875)
 c.CFrame=CFrame.new(86.28654479980469,41.80988311767578,116.82952117919922)
 c.Parent=a
 a.Parent=workspace
-
-if getgenv().noclip == true then
+--]]
+if getgenv().noclip == true then                       
 	local floor = Instance.new("Part")
 	floor.Name = "CCFloor"
 	floor.Size = Vector3.new(1000,1,1000)
@@ -738,9 +768,9 @@ if getgenv().noclip == true then
 
 	for i,v in pairs(game.Workspace:GetDescendants()) do
 		if v.Name ~= "CCFloor" and v.Name ~= "StaffArea" and v.Name ~= "ReturnerBOT" then
-			pcall(function()
+			if v:IsA("BasePart") then
 				v.CanCollide = false
-			end)
+			end
 		end
 	end
 end
@@ -752,7 +782,7 @@ for i,v in pairs(game.Workspace:GetDescendants()) do
 		end
 	end
 end
-
+print("1")
 
 
 
@@ -767,16 +797,20 @@ task.spawn(function()
 
 	end
 end)
+
+local pathfinding = game:GetService("PathfindingService")
+
+
 function walkto(pos)
 	local AgentParams = {
 		AgentCanJump = true,
-		AgentRadius = 5,
 		Costs = {
 			seat = math.huge
 		}
 	}
 	local path = pathfinding:CreatePath(AgentParams)
 	path:ComputeAsync(game.Players.LocalPlayer.Character.PrimaryPart.Position - Vector3.new(0, game.Players.LocalPlayer.Character.PrimaryPart.Size.Y/0.75, 0), pos)
+
 	local waypoints = path:GetWaypoints()
 	for _, waypoint in pairs(waypoints) do  
 
@@ -935,3 +969,4 @@ task.spawn(function()
 	until false
 end)
 
+print("runing?")
