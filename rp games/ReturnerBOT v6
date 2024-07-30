@@ -1,12 +1,8 @@
 
 --originally By NathanReturns additions by mo_on
-
-
 if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
-
-
 
 if game.PlaceId == 1990228024 then
 else
@@ -19,53 +15,85 @@ else
 	return
 end
 
-
-local Character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+local LocalPlayer = Players.LocalPlayer or Players.PlayerAdded:Wait()
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 
 Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(6, 201, -274)
 
+function JSONDecode(s)
+	return HttpService:JSONDecode(s)
+end
 
+function JSONEncode(s)
+	return HttpService:JSONEncode(s)
+end
 
-local Dir = game:GetService("CoreGui"):WaitForChild("RobloxPromptGui"):WaitForChild("promptOverlay")
 
 local Settings
-local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",rejoined="nil",botgoingto="nil",SmallMode="nil"}			
-local why = {
-	DisableAnimate = "nill",
-	AnimationPack = "nill",
-	rejoined = "nill",
-	botgoingto = "nill",
-	SmallMode = "nill",
-}
-local Parser = loadstring(game:HttpGet('https://raw.githubusercontent.com/moon734/Scripts/main/Parser'))()
-
-function savea(data)
-	print(data)
-	Parser:save(game.Players.LocalPlayer.Name.."settings", {
-		data
-
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "ReturnerBOT",
+	Text = "Searching for old settings files",
+})
+local filescon = 0
+if filescon > 0 then
+	print("yes")
+end
+for i,v in pairs(listfiles("")) do -- dels old ReturnerBOT  settings files
+	if v:match("settings") then
+		local openfile = readfile(v)
+		if openfile:match("[1]")   and openfile:match("rejoined") and openfile:match("AnimationPack") and openfile:match("DisableAnimate") and openfile:match("SmallMode") and openfile:match("botgoingto") then
+			delfile(v)
+			filescon = filescon + 1
+		end
+	end
+end
+if filescon > 0 then
+game:GetService("StarterGui"):SetCore("SendNotification",{
+	Title = "ReturnerBOT",
+	Text = "Found and deleted "..filescon.."ReturnerBOT old settings files",
 	})
-end
-if  isfile(game.Players.LocalPlayer.Name.."settings") then
 else
-	savea(why)
+	game:GetService("StarterGui"):SetCore("SendNotification",{
+		Title = "ReturnerBOT",
+		Text = "No settings files found",
+	})
+	end
+
+if not isfolder("ReturnerBOT") then
+	makefolder("ReturnerBOT")
 end
-local Data = Parser:load(game.Players.LocalPlayer.Name.."settings")
+
+local DefaultSettings = {DisableAnimate="nil",AnimationPack="nil",rejoined="nil",botgoingto="nil",SmallMode="nil"}			
+function savea(data)
+	writefile("ReturnerBOT/"..game.Players.LocalPlayer.Name..".mo_on", JSONEncode(data))
+end
+if not  isfile("ReturnerBOT/"..game.Players.LocalPlayer.Name..".mo_on") then
+	savea(DefaultSettings)
+end
+local loadfile = JSONDecode(readfile("ReturnerBOT/"..game.Players.LocalPlayer.Name..".mo_on"))
 
 local botgoing = "starting"
 
 function queueonteleport()
 	queue_on_teleport([[
-	         local Parser = loadstring(game:HttpGet('https://raw.githubusercontent.com/moon734/Scripts/main/Parser'))()
+	print("hi")
+	
+	local HttpService = game:GetService("HttpService")
 
-				local Data = Parser:load(game.Players.LocalPlayer.Name.."settings")
+	function JSONDecode(s)
+	return HttpService:JSONDecode(s)
+end
 
-				
+
+				local loadfile = JSONDecode(readfile("ReturnerBOT/"..game.Players.LocalPlayer.Name..".mo_on"))
+
                
-                 getgenv().DisableAnimate = Data.DisableAnimate
-                 getgenv().AnimationPack = Data.AnimationPack
-                 getgenv().SmallMode = Data.SmallMode
-                print(Data.botgoingto.." rejoin")
+                 getgenv().DisableAnimate = loadfile.DisableAnimate
+                 getgenv().AnimationPack = loadfile.AnimationPack
+                 getgenv().SmallMode = loadfile.SmallMode
+                print(loadfile.botgoingto.." rejoin")
                  
                               
                
@@ -75,15 +103,13 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/moon6007/Scripts/main
 end
 local rejoin = false
 
-
-
-Dir.DescendantAdded:Connect(function(Err)
-	if Err.Name == "ErrorTitle" then
-		Err:GetPropertyChangedSignal("Text"):Connect(function()
-			if Err.Text:sub(0, 12) == "Disconnected" then
+task.spawn(function()
+while true do
+	for _, v in pairs(game.CoreGui:GetDescendants()) do
+		if v:IsA("TextLabel") and v.Name == "ErrorMessage" and v.Text:match("You were kicked from this experience") then
 				local why = {
 					DisableAnimate = getgenv().DisableAnimate,
-					AnimationPack = getgenv().AnimationPack, -- Corrected key name
+					AnimationPack = getgenv().AnimationPack,
 					rejoined = "t",
 					botgoingto = botgoing,
 					SmallMode = getgenv().SmallMode,
@@ -94,18 +120,12 @@ Dir.DescendantAdded:Connect(function(Err)
 
 				wait(2)
 				rejoin = true
-
-			end
-		end)
+			return
+		end
 	end
+	task.wait(1)
+end
 end)
-
-
-
-
-
-
-
 
 
 local room = {
@@ -161,92 +181,96 @@ local whyareyounotcleaningmyroom = {
 }
 
 
+local nooneatdeak = {
+	"WHY IS NO ONE AT THE DESK?",
+	"CAN SOMEONE PLEASE COME TO THE DESK?",
+	"I'M WAITING AT THE DESK. WHERE IS EVERYONE?",
+	"I NEED IMMEDIATE ASSISTANCE AT THE DESK.",
+	"IS THERE ANYONE AVAILABLE AT THE DESK RIGHT NOW?",
+	"PLEASE SEND SOMEONE TO THE DESK AS SOON AS POSSIBLE.",
+	"THERE’S NO ONE AT THE DESK. CAN SOMEONE ASSIST ME?",
+	"I REALLY NEED SOMEONE TO ATTEND THE DESK RIGHT NOW.",
+	"WHY ISN'T THERE ANYONE AT THE DESK? HELP ME OUT!",
+	"CAN YOU GET SOMEONE TO THE DESK IMMEDIATELY?",
+	"THERE’S NO STAFF AT THE DESK. I NEED HELP!",
+	"PLEASE HAVE SOMEONE COME TO THE DESK QUICKLY.",
+	"I’M AT THE DESK AND NEED ASSISTANCE URGENTLY.",
+	"I NEED SOMEONE AT THE DESK WITHOUT DELAY.",
+	"CAN SOMEONE PLEASE ATTEND TO THE DESK?",
+	"WHY IS THE DESK UNATTENDED? ASSIST ME NOW.",
+	"I’M WAITING AT THE DESK AND REQUIRE IMMEDIATE HELP.",
+	"THERE SHOULD BE SOMEONE AT THE DESK. PLEASE ATTEND TO IT.",
+	"I NEED ASSISTANCE AT THE DESK RIGHT NOW.",
+	"PLEASE RESPOND QUICKLY; THE DESK IS UNATTENDED.",
+	"WHY IS NO ONE AT THE DESK? I'M GOING TO LEAVE A 0-STAR REVIEW!"
+}
+
 
 
 
 
 function checkifcanbuy()
-	if tonumber(game:GetService("Players").LocalPlayer.PlayerGui.UIs.bucksDisplay.bucks.Text) >= 7 then
+	if tonumber(LocalPlayer.PlayerGui.UIs.bucksDisplay.bucks.Text) >= 7 then
 		return true
 	end
 	return false
 end
 
 function GetGun()
-	local gun = game.Players.LocalPlayer.Backpack:FindFirstChild("Water Gun") or game.Players.LocalPlayer.Character:FindFirstChild("Water Gun")
+	local gun = LocalPlayer.Backpack:FindFirstChild("Water Gun") or LocalPlayer.Character:FindFirstChild("Water Gun")
 	if not gun then
-		if tonumber(game:GetService("Players").LocalPlayer.PlayerGui.UIs.bucksDisplay.bucks.Text) >= 7 then
+		if tonumber(LocalPlayer.PlayerGui.UIs.bucksDisplay.bucks.Text) >= 7 then
 			game:GetService("ReplicatedStorage").DataEvents.requestPurchase:FireServer("Water Gun")
-			game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool( game.Players.LocalPlayer.Backpack:WaitForChild("Water Gun"))
+			LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(LocalPlayer.Backpack:WaitForChild("Water Gun"))
 		end
 	else
-		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool( game.Players.LocalPlayer.Backpack:WaitForChild("Water Gun"))
+		LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):EquipTool(LocalPlayer.Backpack:WaitForChild("Water Gun"))
 
 	end
 
 end
 
-local oldindex = "nil"
-function say(tablel)
-	index = math.random(1, #tablel)
-
-	while index == oldindex do
-		index = math.random(#tablel)
+function HasGun()
+	local gun = LocalPlayer.Backpack:FindFirstChild("Water Gun") or LocalPlayer.Character:FindFirstChild("Water Gun")
+	if gun then
+		return true
 	end
-	local selectedMessage = tablel[index]
+return false
+end
 
-	if selectedMessage == "PUT YOUR HANDS UP, THIS IS A ROBBERY." and checkifcanbuy() then
+function getRandomItemFromTable(tbl, lastItem)
+	math.randomseed(os.time())
+	local tblLength = #tbl
+	local randomIndex = math.random(1, tblLength)
+	while tbl[randomIndex] == lastItem and tblLength > 1 do
+		randomIndex = math.random(1, tblLength)
+	end
+	return tbl[randomIndex]
+end
+
+
+local lastItem = nil
+function say(tablel)
+	local random = getRandomItemFromTable(tablel,lastItem)
+	local selectedMessage = random
+	if selectedMessage == "PUT YOUR HANDS UP, THIS IS A ROBBERY." and checkifcanbuy() or selectedMessage == "PUT YOUR HANDS UP, THIS IS A ROBBERY." and HasGun() then
 		GetGun()
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
 		task.wait(3)
 		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Humanoid"):UnequipTools()
-		oldindex = selectedMessage
+		lastItem = selectedMessage
 	else
-
-
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(selectedMessage, "All")
-		oldindex = selectedMessage
+		lastItem = selectedMessage
 	end
 end
 
 
 
-
-
-
-
-game.Players.PlayerRemoving:Connect(function(plr)
-	if plr.Name == game.Players.LocalPlayer.Name then
-		if Dir:FindFirstChild("ErrorTitle") then
-			if Dir:FindFirstChild("ErrorTitle").Text:sub(0, 12) == "Disconnected" then
-
-				local why = {
-					DisableAnimate = getgenv().DisableAnimate,
-					AnimationPack = getgenv().AnimationPack, -- Corrected key name
-					rejoined = "t",
-					botgoingto = botgoing,
-					SmallMode = getgenv().SmallMode,
-				}
-				savea(why)
-
-
-
-				queueonteleport()
-
-				wait(2)
-				rejoin = true
-			end
-		end
-	end
-end)
-
-
-
-
-if Data[1].rejoined == "t"  then
+if loadfile.rejoined == "t"  then
 	print("rejoined")
-	botgoing = Data[1].botgoingto
-	Data[1].rejoined = "f"
+	botgoing = loadfile.botgoingto
+	loadfile.rejoined = "f"
 end
 
 
@@ -259,7 +283,6 @@ spawn(function()
 	end)
 end)
 
-local plr = game:GetService("Players").LocalPlayer
 if getgenv().DisableAnimate == true then
 	Character.Animate.Disabled = true
 end
@@ -303,6 +326,35 @@ game.Teams:WaitForChild("MRs").PlayerAdded:Connect(function(Player)
 end)
 
 
+for _,Player in pairs(game.Teams:WaitForChild("HRs"):GetPlayers()) do
+	if table.find(userids,Player.UserId) then
+		local message = "An HR or MR+ member has been detected, leaving to evade a server ban or pban..."
+
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+
+		game:GetService("RunService").RenderStepped:Connect(function()
+			local teleportService = game:GetService("TeleportService")
+			teleportService:Teleport(teleportPlaceId, game.Players.LocalPlayer)
+
+		end)
+	end
+end
+
+
+
+game.Teams:WaitForChild("HRs").PlayerAdded:Connect(function(Player)
+	if table.find(userids,Player.UserId) then
+		local message = "An HR or MR+ member has been detected, leaving to evade a server ban or pban..."
+
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(message, "All")
+
+		game:GetService("RunService").RenderStepped:Connect(function()
+			local teleportService = game:GetService("TeleportService")
+			teleportService:Teleport(teleportPlaceId, game.Players.LocalPlayer)
+
+		end)
+	end
+end)
 
 local teleportLocations = {
 	["starting"] = CFrame.new(50, 43, 89),
@@ -319,9 +371,6 @@ local teleportLocations = {
 
 
 
-local Players = game:GetService("Players").LocalPlayer
-local LocalPlayer = game.Players.LocalPlayer
-local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local HRP = Character:FindFirstChild("HumanoidRootPart")
 
 
@@ -333,9 +382,14 @@ local ranksWithHandCuffs = {7,9,10,11,12,14,15,16}
 
 local teams = {"LRs", "MRs", "HRs"}
 
+
+
+
 for _, teamName in pairs(teams) do
+	task.spawn(function()
 	local team = game:GetService("Teams"):WaitForChild(teamName)
-	team.PlayerAdded:Connect(function(plr)
+		team.PlayerAdded:Connect(function(plr)
+			task.wait(1)
 		print("added "..plr.Name)
 		staff[plr] = plr:GetRankInGroup(2788849)
 	end)
@@ -346,17 +400,25 @@ for _, teamName in pairs(teams) do
 	for _, player in pairs(team:GetPlayers()) do
 		print("test")
 		staff[player] = player:GetRankInGroup(2788849)
-	end
+		end
+		end)
 end
 
-
+function CheckRank(plr,tables)
+	for player, rank in pairs(staff) do
+		if player == plr and table.find(tables,rank) then
+			return true
+		end
+	end
+return false
+end
 
 local function GetClosestPlayerWithCuffs(range)
 	local closestPlayer = nil
 	local closestDistance = range
 
 	for player, rank in pairs(staff) do
-		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and table.find(ranksWithHandCuffs,rank) and player.Character:FindFirstChild("Handcuffs") then
+		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") and CheckRank(player,ranksWithHandCuffs) and player.Character:FindFirstChild("Handcuffs") then
 			local dist = player:DistanceFromCharacter(HRP.Position)
 
 			if dist < closestDistance  then
@@ -382,6 +444,17 @@ task.spawn(function()
 		end
 	end
 end)
+local ranksThatCanGiveRooms = {8,9,10,11,12,14,15,16}
+function CheckForStaffAtLane(Part,Character)
+	local touching = Part:GetTouchingParts()
+	for i=1,#touching do
+		local plr = game.Players:GetPlayerFromCharacter(touching[i].Parent)
+		if plr and CheckRank(plr,ranksThatCanGiveRooms) then
+			return plr
+		end
+	end
+	return false
+end
 
 
 spawn(function()
@@ -413,12 +486,7 @@ end
 
 
 local cuffed = false
-local Player = plr
 
-Player.CharacterAdded:Connect(function()
-	repeat task.wait() until Player.Character
-	Character = Player.Character
-end)
 
 local function ProcessArrestedChild()
 	local character = game.Players.LocalPlayer.Character
@@ -430,7 +498,7 @@ local function ProcessArrestedChild()
 			say(cuffeds)
 			local why = {
 				DisableAnimate = getgenv().DisableAnimate,
-				AnimationPack = getgenv().AnimationPack, -- Corrected key name
+				AnimationPack = getgenv().AnimationPack,
 				rejoined = "t",
 				botgoingto = botgoing,
 				SmallMode = getgenv().SmallMode,
@@ -454,8 +522,6 @@ task.spawn(function()
 end)
 
 
-local LocalPlayer = game.Players.LocalPlayer
-local Character = LocalPlayer.Character
 local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 local Humanoid = Character:WaitForChild("Humanoid")
 
@@ -694,18 +760,10 @@ else
 	end 
 end
 
-
-
-
-
-
-
 if Humanoid then
 	Humanoid.WalkSpeed = getgenv().walkspeed
 end
 
-
---[[
 local a=Instance.new"Folder"
 local b=Instance.new"Part"
 b.Name="ReturnerBOT"
@@ -726,7 +784,33 @@ c.Size=Vector3.new(13.438224792480469,2.474504232406616,4.071014404296875)
 c.CFrame=CFrame.new(86.28654479980469,41.80988311767578,116.82952117919922)
 c.Parent=a
 a.Parent=workspace
---]]
+
+local Lane1 = Instance.new("Part")
+Lane1.Name = "Lane 1"
+Lane1.Anchored = true
+Lane1.BottomSurface = Enum.SurfaceType.Smooth
+Lane1.CanCollide = false
+Lane1.Transparency = 0.35
+Lane1.TopSurface = Enum.SurfaceType.Smooth
+Lane1.Size = Vector3.new(11.219, 11.465, 6.985)
+Lane1.CFrame = CFrame.new(150.6708984375, 46.532466888427734, 72.92359161376953, 0, 0, 1, 0, 1, 0, -1, 0, 0)
+
+Lane1.Parent = workspace
+
+local Lane2 = Instance.new("Part")
+Lane2.Name = "Lane 2"
+Lane2.Anchored = true
+Lane2.BottomSurface = Enum.SurfaceType.Smooth
+Lane2.CanCollide = false
+Lane2.Transparency = 0.35
+Lane2.TopSurface = Enum.SurfaceType.Smooth
+Lane2.Size = Vector3.new(11.219, 11.465, 6.985)
+Lane2.CFrame = CFrame.new(150.6708984375, 46.532466888427734, 86.55598449707031, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+
+Lane2.Parent = workspace
+Lane1.Touched:Connect(function() end) -- Just for a TouchInterest to occur on a CanCollide false part
+Lane2.Touched:Connect(function() end) -- Just for a TouchInterest to occur on a CanCollide false part
+
 if getgenv().noclip == true then                       
 	local floor = Instance.new("Part")
 	floor.Name = "CCFloor"
@@ -764,7 +848,7 @@ local pathfinding = game:GetService("PathfindingService")
 local TeleportService = game:GetService("TeleportService")
 task.spawn(function()
 	while wait() do
-		if game.Players.LocalPlayer.Character.Humanoid.Sit == true then game.Players.LocalPlayer.Character.Humanoid.Jump = true end
+		if Character.Humanoid.Sit == true then Character.Humanoid.Jump = true end
 
 	end
 end)
@@ -801,33 +885,51 @@ if botgoing == "starting" then
 	spawn(function()
 		walkto(Vector3.new(76, 44, 89))
 	end)
-	plr.Character.Humanoid.MoveToFinished:Wait()
+	Character.Humanoid.MoveToFinished:Wait()
 	botgoing = "reg 2"
 end
 
-
-
-
-
-
 function reg2()
+	
 	walkto(Vector3.new(145, 44, 84))---walks to reg 2 2
 	wait()
-	say(room)
+local	staffplr = CheckForStaffAtLane(Lane2) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 2")
+	else
+		say(nooneatdeak)
+	end
 end
 
 
 function reg1() -- aaa
 	walkto(Vector3.new(145, 44, 71))
-	wait ()
-	say(room)
+	wait()
+	local	staffplr = CheckForStaffAtLane(Lane1) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 1")
+	else
+		say(nooneatdeak)
+	end
 end
 
 
 function reg2again() --aa
 	walkto(Vector3.new(145, 44, 84))
 	wait ()
-	say(room)
+	local	staffplr = CheckForStaffAtLane(Lane2) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 2")
+	else
+		say(nooneatdeak)
+	end
+
 end
 
 
@@ -891,14 +993,29 @@ end
 function reg2ag() -- aa
 	walkto(Vector3.new(145, 44, 84))
 	wait()
-	say(room)
+	local	staffplr = CheckForStaffAtLane(Lane2) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 2")
+	else
+		say(nooneatdeak)
+	end
+	
 end
 
 
 function reg1ag() -- aa
 	walkto(Vector3.new(145, 44, 71))
 	wait()
-	say(room)
+	local	staffplr = CheckForStaffAtLane(Lane1) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 1")
+	else
+		say(nooneatdeak)
+	end
 end
 
 
@@ -906,8 +1023,14 @@ function reg2agag()
 	print("hi")
 	walkto(Vector3.new(145, 44, 84))
 	wait()
-
-	say(room)
+	local	staffplr = CheckForStaffAtLane(Lane2) 
+	if staffplr then
+		HumanoidRootPart.CFrame = CFrame.lookAt(HumanoidRootPart.Position, staffplr.Character.HumanoidRootPart.Position)
+		say(room)
+		print(staffplr.Name.." is at lane 2")
+	else
+		say(nooneatdeak)
+	end
 end
 local transitions = {
 	["reg 2"] = { func = reg2, nextBotgoing = "reg 1" },
