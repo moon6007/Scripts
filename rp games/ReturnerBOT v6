@@ -6,6 +6,15 @@ if not game:IsLoaded() then
 	game:IsLoaded():wait()
 end
 
+
+for i,v in pairs(game.Workspace:GetDescendants()) do
+	if v:IsA("Part") then
+		if v.Name:match("Barrier") or v.Name == "NoSpamToolZone" then
+			v:Destroy()
+		end
+	end
+end
+
 if game.PlaceId == 1990228024 then
 else
 	game.StarterGui:SetCore("SendNotification", {
@@ -836,13 +845,6 @@ if getgenv().noclip == true then
 	end
 end
 
-for i,v in pairs(game.Workspace:GetDescendants()) do
-	if v:IsA("Part") then
-		if v.Name:match("Barrier") or v.Name == "NoSpamToolZone" then
-			v:Destroy()
-		end
-	end
-end
 print("1")
 
 
