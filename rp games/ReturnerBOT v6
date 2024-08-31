@@ -482,6 +482,8 @@ end)
 botversion = "V6.testing"
 local name = "Returner BOT"
 game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("["..name.."]: "..botversion.." has loaded.","All")
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("update comeing soon.","All")
+
 game.StarterGui:SetCore("SendNotification", {
 	Title = "Returner BOT";
 	Text = "Returner BOT Loaded! originally By NathanReturns additions by mo_on";
